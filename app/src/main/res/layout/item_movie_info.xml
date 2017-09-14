@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/transparentDark">
+
+    <com.android.myeyepetizer.view.TyperTextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        tools:text="我是标题 标题"
+        tools:textColor="@color/colorBlack"/>
+
+    <com.android.myeyepetizer.view.TyperTextView
+        android:id="@+id/movie_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:textSize="12sp"
+        android:textColor="@color/colorWhite"
+        tools:text="info info"
+        tools:textColor="@color/colorBlack"/>
+
+    <com.android.myeyepetizer.view.TyperTextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:textSize="11sp"
+        android:textColor="@color/colorWhite"
+        tools:text="我是描述 描述"
+        tools:textColor="@color/colorBlack"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:id="@+id/collection_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_action_favorites_without_padding"/>
+
+            <TextView
+                android:id="@+id/collection_count"
+                style="@style/ConsumptionTextStyle"
+                tools:text="216"
+                tools:textColor="@color/colorBlack"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:id="@+id/share_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_action_share_without_padding"/>
+
+            <TextView
+                android:id="@+id/share_count"
+                style="@style/ConsumptionTextStyle"
+                tools:text="216"
+                tools:textColor="@color/colorBlack"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:id="@+id/reply_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_action_reply_without_padding"/>
+
+            <TextView
+                android:id="@+id/reply_count"
+                style="@style/ConsumptionTextStyle"
+                tools:text="216"
+                tools:textColor="@color/colorBlack"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageButton
+                android:id="@+id/download_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_action_offline_without_padding"/>
+
+            <TextView
+                style="@style/ConsumptionTextStyle"
+                android:text="缓存"
+                android:textColor="@color/colorWhite"
+                tools:textColor="@color/colorBlack"/>
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

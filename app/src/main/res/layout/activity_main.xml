@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:my_radio_button="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/colorBlack"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.android.myeyepetizer.view.MyRadioButton
+                android:id="@+id/home_radio"
+                android:text="首页"
+                android:checked="true"
+                android:textColor="@color/text_color_selector"
+                style="@style/RadioButton"
+                my_radio_button:drawableTop="@drawable/ic_home_selector"
+                my_radio_button:drawableTopWidth="20dp"
+                my_radio_button:drawableTopHeight="20dp"/>
+
+            <com.android.myeyepetizer.view.MyRadioButton
+                android:id="@+id/found_radio"
+                android:text="发现"
+                android:textColor="@color/text_color_selector"
+                style="@style/RadioButton"
+                my_radio_button:drawableTop="@drawable/ic_found_selector"
+                my_radio_button:drawableTopWidth="20dp"
+                my_radio_button:drawableTopHeight="20dp"/>
+
+            <com.android.myeyepetizer.view.MyRadioButton
+                android:id="@+id/follow_radio"
+                android:text="关注"
+                android:textColor="@color/text_color_selector"
+                style="@style/RadioButton"
+                my_radio_button:drawableTop="@drawable/ic_follow_selector"
+                my_radio_button:drawableTopWidth="20dp"
+                my_radio_button:drawableTopHeight="20dp"/>
+
+            <com.android.myeyepetizer.view.MyRadioButton
+                android:id="@+id/mine_radio"
+                android:text="我的"
+                android:textColor="@color/text_color_selector"
+                style="@style/RadioButton"
+                my_radio_button:drawableTop="@drawable/ic_mine_selector"
+                my_radio_button:drawableTopWidth="20dp"
+                my_radio_button:drawableTopHeight="20dp"/>
+
+        </RadioGroup>
+    </LinearLayout>
+
+</LinearLayout>

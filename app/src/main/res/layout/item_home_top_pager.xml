@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="300dp">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.rd.PageIndicatorView
+        android:id="@+id/page_indicator_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="10dp"
+        app:piv_radius="4dp"
+        app:piv_padding="10dp"
+        app:piv_viewPager="@id/view_pager"
+        app:piv_animationType="none"
+        app:piv_selectedColor="@color/colorWhite"
+        app:piv_unselectedColor="@color/transparentGrey"
+        app:piv_dynamicCount="true"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_banner"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="80dp"/>
+
+
+    <FrameLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:transitionName="@string/search_transition_name">
+        <ImageButton
+            android:id="@+id/search_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_light_search"
+            android:layout_gravity="center_vertical|right"/>
+    </FrameLayout>
+
+</FrameLayout>

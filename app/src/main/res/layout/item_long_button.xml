@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:background="@color/colorWhite">
+    <TextView
+        android:id="@+id/long_button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更 多 开 眼 编 辑 精 选"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="13dp"
+        android:background="@drawable/ic_arrow"
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="110dp"/>
+
+</FrameLayout>

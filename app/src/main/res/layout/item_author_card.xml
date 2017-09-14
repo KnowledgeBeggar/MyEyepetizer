@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="80.01dp"
+              android:background="@color/colorWhite"
+              android:clickable="true">
+
+    <include
+        layout="@layout/item_movie_author"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.01dp"
+        android:background="@color/colorBlack"
+        android:layout_marginLeft="15dp"/>
+
+</LinearLayout>

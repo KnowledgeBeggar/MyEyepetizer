@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MyEyepetizer</string>
+    <string name="search_transition_name">sharesSearch</string>
+    <string name="DB1FontPath">fonts/FZLanTingHeiS-DB1-GB-Regular.TTF</string>
+    <string name="LFontPath">fonts/FZLanTingHeiS-L-GB-Regular.TTF</string>
+    <string name="LobsterFontPath">fonts/Lobster-1.4.otf</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MyRadioButton">
+        <!-- 设置top的图片资源 -->
+        <attr name="drawableTop" format="reference"/>
+        <!-- 设置top的图片高度 -->
+        <attr name="drawableTopHeight" format="dimension"/>
+        <!-- 设置top的图片宽度 -->
+        <attr name="drawableTopWidth" format="dimension"/>
+    </declare-styleable>
+
+</resources>

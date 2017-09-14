@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/colorWhite">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/colorWhite">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"/>
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/found_category_detail_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"/>
+
+    <com.rd.PageIndicatorView
+        android:id="@+id/page_indicator_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        app:piv_radius="3dp"
+        app:piv_padding="10dp"
+        app:piv_viewPager="@id/found_category_detail_view_pager"
+        app:piv_animationType="none"
+        app:piv_selectedColor="@color/colorBlack"
+        app:piv_unselectedColor="@color/transparentGrey"
+        app:piv_dynamicCount="true"/>
+
+</LinearLayout>

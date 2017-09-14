@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             tools:ignore="MissingPrefix"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/colorBlack"
+            android:layout_marginBottom="10dp"
+            android:text="很抱歉没有找到相匹配的内容"
+            android:layout_gravity="center"
+            fontPath="@string/LFontPath"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginBottom="3dp"
+            android:text="可以通过所属分类,"
+            android:layout_gravity="center"
+            fontPath="@string/LFontPath"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="以及标题或描述中的关键词来查找"
+            android:layout_gravity="center"
+            fontPath="@string/LFontPath"/>
+    </LinearLayout>
+
+</FrameLayout>
