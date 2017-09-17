@@ -26,7 +26,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
 import java.util.ArrayList;
 import java.util.List;
 
-public class RankActivity extends AppCompatActivity {
+public class RankActivity extends BaseActivity {
 
     private MagicIndicator mMagicIndicator;
     private ViewPager mViewPager;

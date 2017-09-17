@@ -52,7 +52,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends BaseActivity {
 
     private StandardGSYVideoPlayer mPlayer;
     private MultiTypeAdapter mAdapter;

@@ -46,7 +46,7 @@ import me.drakeet.multitype.ItemViewBinder;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-public class RecyclerViewActivity extends AppCompatActivity {
+public class RecyclerViewActivity extends BaseActivity {
 
     public static final String INTENT_FLAG = "IntentFlag";
     public static final int FLAG_ALL_CATEGORY = 0;

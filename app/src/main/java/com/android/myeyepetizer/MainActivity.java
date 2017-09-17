@@ -24,7 +24,7 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener{
+public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener{
 
     private static final int HOME_RADIO_BUTTON_INDEX = 0;
     private static final int FOUND_RADIO_BUTTON_INDEX = 1;

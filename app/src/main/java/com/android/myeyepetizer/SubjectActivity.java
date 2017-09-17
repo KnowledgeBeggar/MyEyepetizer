@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-public class SubjectActivity extends AppCompatActivity {
+public class SubjectActivity extends BaseActivity {
 
     private TextView mTitleText;
     private ImageButton mExitButton;

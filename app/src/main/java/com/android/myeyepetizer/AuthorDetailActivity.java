@@ -43,7 +43,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
-public class AuthorDetailActivity extends AppCompatActivity {
+public class AuthorDetailActivity extends BaseActivity {
 
     public static final String FLAG_INTENT_ID = "ID";
 

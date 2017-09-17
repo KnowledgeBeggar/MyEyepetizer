@@ -47,7 +47,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
-public class CategoryDetailActivity extends AppCompatActivity {
+public class CategoryDetailActivity extends BaseActivity {
 
     public static final String INTENT_ID_KEY = "ID";
 

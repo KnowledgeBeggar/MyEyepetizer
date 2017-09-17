@@ -121,6 +121,7 @@ public class AuthorCollectionItemBinder extends ItemViewBinder<AuthorCollectionI
             if (itemList != null) {
                 mItems.add(new Line());
                 mItems.add(new Line());
+                mItems.add(new Line());
                 for (Item item : itemList) {
                     if (item.type.equals("video")) {
                         mItems.add(new CollectionItem(item.data));

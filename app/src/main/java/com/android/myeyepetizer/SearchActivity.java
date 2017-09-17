@@ -36,7 +36,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener{
+public class SearchActivity extends BaseActivity implements View.OnClickListener{
 
     private FragmentManager mFragmentManager;
     private TagFlowLayout mTagFlowLayout;

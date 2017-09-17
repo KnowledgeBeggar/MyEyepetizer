@@ -37,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-public class DailyActivity extends AppCompatActivity {
+public class DailyActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
