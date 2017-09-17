@@ -59,7 +59,6 @@ public class MovieDetailActivity extends BaseActivity {
     private Items mItems;
     private Data mData;
     private Disposable mDisposable;
-    private int mMovieId;
     private OrientationUtils mOrientationUtils;
     private boolean mIsPause;
     private boolean mIsPlay;
@@ -77,7 +76,6 @@ public class MovieDetailActivity extends BaseActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mData = bundle.getParcelable("DATA");
-        mMovieId = mData.id;
         mItems = new Items();
         mBackgroundImageView = (ImageView) findViewById(R.id.background);
         mPlayer = (StandardGSYVideoPlayer) findViewById(R.id.video_view);
@@ -329,7 +327,7 @@ public class MovieDetailActivity extends BaseActivity {
     }
 
     public int getMovieId() {
-        return mMovieId;
+        return mData.id;
     }
 
     private void resolveNormalVideoUI() {

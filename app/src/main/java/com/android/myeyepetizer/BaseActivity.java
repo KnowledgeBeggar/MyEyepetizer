@@ -7,11 +7,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.Toast;
-
-/**
- * Created by Administrator on 2017/9/16.
- */
 
 public class BaseActivity extends AppCompatActivity {
 
