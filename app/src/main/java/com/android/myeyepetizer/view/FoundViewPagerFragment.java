@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.android.myeyepetizer.Api.FoundApi;
 import com.android.myeyepetizer.R;
 import com.android.myeyepetizer.RetrofitFactory;
+import com.android.myeyepetizer.gson.Data;
 import com.android.myeyepetizer.gson.GetDataBean;
 import com.android.myeyepetizer.gson.Item;
 import com.android.myeyepetizer.gson.Tab;
@@ -44,7 +45,9 @@ import com.android.myeyepetizer.multitype.SquareCardCollectionBinder;
 import com.android.myeyepetizer.multitype.TextHeader;
 import com.android.myeyepetizer.multitype.TextHeaderBinder;
 import com.android.myeyepetizer.multitype.VerticalLineBinder;
+import com.android.myeyepetizer.utils.DataPreference;
 import com.android.myeyepetizer.utils.LoadMoreDelegate;
+import com.google.gson.Gson;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -57,14 +60,12 @@ import io.reactivex.schedulers.Schedulers;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-/**
- * Created by Administrator on 2017/8/21.
- */
-
 public class FoundViewPagerFragment extends RecyclerViewFragment {
 
-    public static FoundViewPagerFragment newInstance() {
-        return new FoundViewPagerFragment();
+    public static FoundViewPagerFragment newInstance(Tab tab) {
+        FoundViewPagerFragment fragment = new FoundViewPagerFragment();
+        fragment.setTab(tab);
+        return fragment;
     }
 
     private RecyclerView mRecyclerView;
@@ -84,7 +85,7 @@ public class FoundViewPagerFragment extends RecyclerViewFragment {
 
         @Override
         public void onNext(@NonNull GetDataBean getDataBean) {
-            solveData(mTab.name, getDataBean);
+            solveData(getDataBean);
             mIsLoading = false;
         }
 
@@ -127,8 +128,8 @@ public class FoundViewPagerFragment extends RecyclerViewFragment {
         setRecyclerViewScrollListener();
     }
 
-    private void solveData(String category, GetDataBean getDataBean) {
-        switch (category) {
+    private void solveData(GetDataBean getDataBean) {
+        switch (mTab.name) {
             case "热门":
                 addHotItem(getDataBean);
                 break;

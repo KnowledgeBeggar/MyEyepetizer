@@ -3,6 +3,7 @@ package com.android.myeyepetizer.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.android.myeyepetizer.Api.FoundApi;
 import com.android.myeyepetizer.R;
@@ -25,6 +27,8 @@ import com.android.myeyepetizer.SearchActivity;
 import com.android.myeyepetizer.adpter.FragmentAdapter;
 import com.android.myeyepetizer.gson.Discovery;
 import com.android.myeyepetizer.gson.Tab;
+import com.android.myeyepetizer.utils.DataPreference;
+import com.google.gson.Gson;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -84,9 +88,12 @@ public class FoundFragment extends Fragment {
             }
         });
 
-        loadData(view);
+        TextView title = (TextView) view.findViewById(R.id.title_text);
+        title.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), getActivity().getString(R.string.LobsterFontPath)));
+
         mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
         mViewPager.setOffscreenPageLimit(3);
+        loadData(view);
 
         ImageButton searchButton = (ImageButton) view.findViewById(R.id.search_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +109,19 @@ public class FoundFragment extends Fragment {
     }
 
     private void loadData(final View view) {
+        String data;
+        if ((data = DataPreference.getLastPrefFoundData(getActivity())) != null) {
+            Discovery discovery = new Gson().fromJson(data, Discovery.class);
+            mTabList = discovery.tabInfo.tabList;
+            initViewPager();
+            initMagicIndicator(view);
+            ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+            return;
+        }
+        loadDataByInternet(view);
+    }
+
+    private void loadDataByInternet(final View view) {
         mFoundApi = RetrofitFactory.getRetrofit().createApi(FoundApi.class);
         Observable<Discovery> observable = mFoundApi.getDiscovery();
         observable
@@ -121,6 +141,7 @@ public class FoundFragment extends Fragment {
 
                     @Override
                     public void onNext(@NonNull Discovery discovery) {
+                        DataPreference.setLastPrefFoundData(getActivity(), new Gson().toJson(discovery));
                         mTabList = discovery.tabInfo.tabList;
                         initViewPager();
                         initMagicIndicator(view);
@@ -147,8 +168,7 @@ public class FoundFragment extends Fragment {
 
         mFragments = new ArrayList<>();
         for (Tab tab : mTabList) {
-            FoundViewPagerFragment fragment = FoundViewPagerFragment.newInstance();
-            fragment.setTab(tab);
+            FoundViewPagerFragment fragment = FoundViewPagerFragment.newInstance(tab);
             mFragments.add(fragment);
         }
         mViewPager.setAdapter(new FragmentAdapter(getChildFragmentManager(), mFragments, mTabTitles));

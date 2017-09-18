@@ -12,6 +12,8 @@ public class GetDataBean {
 
     public int total;
 
+    public long date;
+
     public String nextPageUrl;
 
 }

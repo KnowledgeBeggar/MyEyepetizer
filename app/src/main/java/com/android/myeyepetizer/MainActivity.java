@@ -1,6 +1,7 @@
 package com.android.myeyepetizer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener{
 
@@ -54,7 +54,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
-
+        Intent intent = UpdateService.newIntent(this);
+        startService(intent);
     }
 
     private void initRadioButton() {
@@ -103,8 +104,4 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mCurrentRB = index;
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
 }

@@ -1,6 +1,8 @@
 package com.android.myeyepetizer.view;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -34,7 +36,9 @@ import com.android.myeyepetizer.multitype.Line;
 import com.android.myeyepetizer.multitype.GreyLineBinder;
 import com.android.myeyepetizer.multitype.LongButton;
 import com.android.myeyepetizer.multitype.LongButtonBinder;
+import com.android.myeyepetizer.utils.DataPreference;
 import com.android.myeyepetizer.utils.LoadMoreDelegate;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +65,7 @@ public class HomeFragment extends Fragment {
     }
 
     private static final String SPLIT_REGEX = "&page=";
+    private static final String KEY_SHARED_PREFERENCE = "HOME_DATA";
 
     private MultiTypeAdapter mAdapter;
     private Items mItems;
@@ -71,6 +76,35 @@ public class HomeFragment extends Fragment {
 
     private boolean mIsLoading;
     private String mNextPageUrl;
+    private long mLastDate;
+
+    private Observer<GetDataBean> mObserver = new Observer<GetDataBean>() {
+        @Override
+        public void onSubscribe(@NonNull Disposable d) {
+            mCompositeDisposable.add(d);
+        }
+
+        @Override
+        public void onNext(@NonNull GetDataBean getDataBean) {
+            if (mLastDate == 0L || mLastDate != getDataBean.date ) {
+                DataPreference.setLastPrefHomeData(getActivity(), new Gson().toJson(getDataBean));
+                DataPreference.setLastPrefHomeDate(getActivity(), getDataBean.date);
+            }
+            solveData(getDataBean);
+            mRefreshLayout.setRefreshing(false);
+        }
+
+        @Override
+        public void onError(@NonNull Throwable e) {
+            Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
+            mIsLoading = false;
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+    };
 
     @Nullable
     @Override
@@ -84,7 +118,7 @@ public class HomeFragment extends Fragment {
                 refreshData();
             }
         });
-
+        mLastDate = DataPreference.getLastPrefHomeDate(getActivity());
         initRecyclerView(view);
         loadData();
         setRecyclerViewScrollListener();
@@ -118,6 +152,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadData() {
+        String data;
+        if ((data = DataPreference.getLastPrefHomeData(getActivity())) != null) {
+            GetDataBean getDataBean = new Gson().fromJson(data, GetDataBean.class);
+            solveData(getDataBean);
+            return;
+        }
+        loadDataByInternet();
+    }
+
+    private void loadDataByInternet() {
         mHomeApi = RetrofitFactory.getRetrofit().createApi(HomeApi.class);
         Observable<GetDataBean> observable = mHomeApi.getHomeItem();
         mIsLoading = true;
@@ -130,64 +174,46 @@ public class HomeFragment extends Fragment {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GetDataBean>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        mCompositeDisposable.add(d);
-                    }
+                .subscribe(mObserver);
+    }
 
-                    @Override
-                    public void onNext(@NonNull GetDataBean getDataBean) {
-                        mItems.clear();
-                        List<Data> pagerDatas = new ArrayList<>();
-                        List<Data> homeItemDatas = new ArrayList<>();
-                        Data bannerData = null;
-                        Data textHeader = null;
-                        Data videoCollection = null;
-                        for (Item item : getDataBean.itemList) {
-                            if (item.type.equals("banner2")) {
-                                bannerData = item.data;
-                            } else if (item.type.equals("video") && item.tag.equals("0") && item.data.cover.homePageCover != null) {
-                                pagerDatas.add(item.data);
-                            } else if (item.type.equals("video") && !item.tag.equals("0")) {
-                                homeItemDatas.add(item.data);
-                            } else if (item.type.equals("textHeader")) {
-                                textHeader = item.data;
-                            } else if (item.type.equals("videoCollectionWithCover")) {
-                                videoCollection = item.data;
-                            }
-                        }
-                        initViewpager(pagerDatas);
-                        if (bannerData != null) {
-                            mItems.add(new Banner(bannerData));
-                        }
-                        if (videoCollection != null) {
-                            mItems.add(new HomeItemCollection(videoCollection));
-                        }
-                        if (textHeader != null) {
-                            mItems.add(new TextHeader(textHeader.text));
-                        }
-                        for (Data data : homeItemDatas) {
-                            mItems.add(new HomeItem(data));
-                        }
+    private void solveData(GetDataBean getDataBean) {
+        mItems.clear();
+        List<Data> pagerDatas = new ArrayList<>();
+        List<Data> homeItemDatas = new ArrayList<>();
+        Data bannerData = null;
+        Data textHeader = null;
+        Data videoCollection = null;
+        for (Item item : getDataBean.itemList) {
+            if (item.type.equals("banner2")) {
+                bannerData = item.data;
+            } else if (item.type.equals("video") && item.tag.equals("0") && item.data.cover.homePageCover != null) {
+                pagerDatas.add(item.data);
+            } else if (item.type.equals("video") && !item.tag.equals("0")) {
+                homeItemDatas.add(item.data);
+            } else if (item.type.equals("textHeader")) {
+                textHeader = item.data;
+            } else if (item.type.equals("videoCollectionWithCover")) {
+                videoCollection = item.data;
+            }
+        }
+        initViewpager(pagerDatas);
+        if (bannerData != null) {
+            mItems.add(new Banner(bannerData));
+        }
+        if (videoCollection != null) {
+            mItems.add(new HomeItemCollection(videoCollection));
+        }
+        if (textHeader != null) {
+            mItems.add(new TextHeader(textHeader.text));
+        }
+        for (Data data : homeItemDatas) {
+            mItems.add(new HomeItem(data));
+        }
 
-                        mAdapter.notifyDataSetChanged();
-                        mNextPageUrl = getDataBean.nextPageUrl.split(SPLIT_REGEX)[0];
-                        mIsLoading = false;
-                        mRefreshLayout.setRefreshing(false);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
-                        mIsLoading = false;
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        mAdapter.notifyDataSetChanged();
+        mNextPageUrl = getDataBean.nextPageUrl.split(SPLIT_REGEX)[0];
+        mIsLoading = false;
     }
 
     private void setRecyclerViewScrollListener() {
@@ -231,6 +257,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 mIsLoading = true;
+                if (mHomeApi == null) {
+                    mHomeApi = RetrofitFactory.getRetrofit().createApi(HomeApi.class);
+                }
                 Observable<GetDataBean> observable = mHomeApi.loadMoreItem(mNextPageUrl);
                 observable
                         .filter(new Predicate<GetDataBean>() {
@@ -248,7 +277,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void refreshData() {
-        loadData();
+        loadDataByInternet();
     }
 
     @Override

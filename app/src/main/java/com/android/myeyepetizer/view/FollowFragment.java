@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,7 +33,9 @@ import com.android.myeyepetizer.multitype.GreyArea;
 import com.android.myeyepetizer.multitype.GreyAreaBinder;
 import com.android.myeyepetizer.multitype.GreyLineBinder;
 import com.android.myeyepetizer.multitype.Line;
+import com.android.myeyepetizer.utils.DataPreference;
 import com.android.myeyepetizer.utils.LoadMoreDelegate;
+import com.google.gson.Gson;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -56,6 +59,7 @@ public class FollowFragment extends Fragment {
     private Button mAllAuthorButton;
     private ImageButton mSearchButton;
     private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mRefreshLayout;
     private MultiTypeAdapter mAdapter;
     private Items mItems;
     private FollowApi mFollowApi;
@@ -71,10 +75,9 @@ public class FollowFragment extends Fragment {
 
         @Override
         public void onNext(@NonNull GetDataBean getDataBean) {
+            DataPreference.setLastPrefFollowData(getActivity(), new Gson().toJson(getDataBean));
             solveData(getDataBean);
-            mAdapter.notifyDataSetChanged();
-            mNextPageUrl = getDataBean.nextPageUrl;
-            mIsLoading = false;
+            mRefreshLayout.setRefreshing(false);
         }
 
         @Override
@@ -94,12 +97,30 @@ public class FollowFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_follow_layout, container, false);
         initToolbar(view);
+        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadDataByNet();
+            }
+        });
         initRecyclerView(view);
         loadData();
         return view;
     }
 
     private void loadData() {
+        String data = null;
+        if ((data = DataPreference.getLastPrefFollowData(getActivity())) != null) {
+            GetDataBean getDataBean = new Gson().fromJson(data, GetDataBean.class);
+            solveData(getDataBean);
+        } else {
+            loadDataByNet();
+        }
+        setRecyclerViewSrollListener();
+    }
+
+    private void loadDataByNet() {
         mFollowApi = RetrofitFactory.getRetrofit().createApi(FollowApi.class);
         Observable<GetDataBean> observable = mFollowApi.getFollowData();
         mIsLoading = true;
@@ -113,7 +134,6 @@ public class FollowFragment extends Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mObserver);
-        setRecyclerViewSrollListener();
     }
 
     private void solveData(GetDataBean getDataBean) {
@@ -133,6 +153,9 @@ public class FollowFragment extends Fragment {
                     break;
             }
         }
+        mAdapter.notifyDataSetChanged();
+        mNextPageUrl = getDataBean.nextPageUrl;
+        mIsLoading = false;
     }
 
     private void setRecyclerViewSrollListener() {
@@ -146,6 +169,9 @@ public class FollowFragment extends Fragment {
             public void onLoadMore() {
                 mIsLoading = true;
                 if (mNextPageUrl != null) {
+                    if (mFollowApi == null) {
+                        mFollowApi = RetrofitFactory.getRetrofit().createApi(FollowApi.class);
+                    }
                     Observable<GetDataBean> observable = mFollowApi.loadMoreData(mNextPageUrl);
                     observable
                             .filter(new Predicate<GetDataBean>() {
@@ -201,6 +227,9 @@ public class FollowFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
+
+        TextView title = (TextView) view.findViewById(R.id.title_text);
+        title.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), getActivity().getString(R.string.LobsterFontPath)));
     }
 
 }

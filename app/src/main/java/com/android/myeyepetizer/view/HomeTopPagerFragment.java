@@ -1,6 +1,7 @@
 package com.android.myeyepetizer.view;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.AppOpsManagerCompat;
@@ -59,11 +60,13 @@ public class HomeTopPagerFragment extends Fragment {
         Glide.with(getActivity()).load(mImageUri).into(imageButton);
 
         mTitleView = (TyperTextView) view.findViewById(R.id.ttv);
+        mTitleView.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), getActivity().getString(R.string.DB1FontPath)));
         mTitleView
                 .setAnimationString(mTitle)
                 .startAnimation();
 
         mSloganView = (TyperTextView) view.findViewById(R.id.ttv1);
+        mSloganView.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), getActivity().getString(R.string.LFontPath)));
         mSloganView
                 .setAnimationString(mSlogan)
                 .startAnimation();
