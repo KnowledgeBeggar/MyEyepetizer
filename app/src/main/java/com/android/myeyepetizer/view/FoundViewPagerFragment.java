@@ -258,8 +258,6 @@ public class FoundViewPagerFragment extends RecyclerViewFragment {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(mObserver);
-                } else {
-                    mItems.add(new EndArea());
                 }
             }
         });
